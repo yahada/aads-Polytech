@@ -8,11 +8,10 @@ int * insert(const int * a, size_t s, size_t i, int v)
     new_a[j] = a[j];
   }
   new_a[j++] = v;
-  for (; j < s; ++j)
+  for (; j < s + 1; ++j)
   {
     new_a[j] = a[j - 1];
   }
-  new_a[s] = a[s - 1];
   return new_a;
 }
 
