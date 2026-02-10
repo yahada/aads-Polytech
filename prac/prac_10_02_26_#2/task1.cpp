@@ -28,6 +28,7 @@ int main()
   {
     std::cout << a[i] << '\n';
   }
+  delete[] b;
   delete[] a;
 }
 
