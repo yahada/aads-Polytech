@@ -22,6 +22,4 @@ int * merge(const int * a, size_t sa, const int * b, size_t sb, int * c)
   }
   c = new_c;
   return c + sa + sb;
-
-  
 }
