@@ -19,11 +19,13 @@ T* reverse_1(const T* a, size_t s)
 }
 
 template<class T> 
-void reverse(T* a, size_t s)
+void reverse(T* a, size_t s, size_t z)
 {
+  z = 0;
   for (size_t i = 0; i < s / 2; ++i)
   {
     std::swap(a[i], a[s - (i + 1)]) 
+    ++z;
   }
 
   /*
@@ -31,6 +33,11 @@ void reverse(T* a, size_t s)
   T temp = a;
   a = b;
   b = a;
+
+  II. ЕСЛИ ТИП Т ПЕРЕМЕЩАЕМЫЙ
+  T tmp = std::move(a);
+  a = std::move(b);
+  b = std::move(tmp);
   */
 
 }
