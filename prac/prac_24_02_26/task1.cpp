@@ -21,7 +21,7 @@ size_t size(const List< T >* h)
 }
 
 template< class T >
-void clear(const List< T >* h)
+void clear(List< T >* h)
 {
   while (h)
   {
