@@ -31,3 +31,9 @@ void clear(List< T >* h)
   }
   
 }
+
+
+int main()
+{
+
+}
