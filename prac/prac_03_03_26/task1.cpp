@@ -72,3 +72,43 @@ List< Vec< T > >* copy(const List< Vec< T > >* h)
   return head;
 }
 
+
+template< class T >
+List< Vec< T > > * safe_copy(List< Vec< T > > * h)
+{
+  if (!h)
+  {
+    return nullptr;
+  }
+
+  List< Vec< T > > * head = nullptr;
+  Vec< T > temp{nullptr, 0};
+  try
+  {
+    temp = copy(h->val);
+//         ^^^^
+//      (1)any exc
+    head = new List< Vec< T > >{temp, nullptr};
+//         ^^^                  ^^^^
+// (1) std::bad_alloc       перемещение
+    temp = {nullptr, 0};
+// затираем чтоб предотвратить неверную очистку
+    List< Vec< T > > * curr = head;
+    while (h->next)
+    {
+      temp = copy(h->next->val);
+      curr->next = new List< Vec< T > >{temp, nullptr};
+      temp = {nullptr, 0};
+      h = h->next;
+      curr = curr->next;
+    }
+  }
+  catch (...)
+  {
+    clear(head);
+    delete[] temp.data;
+    throw;
+  }
+  return head;
+}
+
