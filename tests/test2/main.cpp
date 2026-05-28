@@ -1,6 +1,5 @@
 #include <cstddef>
 #include <utility>
-#include <tuple>
 
 // Вектор
 template< class T >
@@ -26,50 +25,81 @@ struct Table {
 template< class K, class V >
 class TableIt {
 public:
-  TableIt< K, V >& operator++()
+  bool hasNext() const
   {
-
+    if (pos_ == node_.tb.size - 1 && node_.tb.data[pos_] == nullptr)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
   }
 
-  TableIt< K, V > operator++(int)
+  TableIt< K, V >& next()
   {
-
+    if (node_.tb.data[pos_] == nullptr)
+    {
+      ++pos_;
+      while (!node_.tb.data[pos_])
+      {
+        ++pos_;
+      }
+      listNode_ = node_.tb.data[pos_];
+    }
+    else
+    {
+      listNode_ = listNode_->next;
+    }
+    return *this;
   }
 
-  TableIt< K, V >& operator++()
+  std::pair< K, V >& value()
   {
-
-  }
-
-  std::pair< K, V >& operator*()
-  {
-
-  }
-
-  std::pair< K, V >* operator->()
-  {
-
-  }
-
-
-  bool operator==(const TableIt< K, V >& other) const
-  {
-
-  }
-
-  bool operator!=(const TableIt< K, V >& other) const
-  {
-
+    return listNode_->val;
   }
 
 private:
   Table< K, V > node_;
+  size_t pos_;
+  List< std::pair< K, V > >* listNode_;
+
 };
 
 // Бинарное дерево
 // Параметр K - ключ дерева, V - значение
 template< class K, class V >
 struct Tree {
+  Tree< K, V >* minimum()
+  {
+    Tree< K, V >* root = this;
+    if (!root)
+    {
+      return root;
+    }
+
+    while (root->lhs)
+    {
+      root = root->lhs;
+    }
+    return root;
+  }
+
+  Tree< K, V >* maximum()
+  {
+    Tree< K, V >* root = this;
+    if (!root)
+    {
+      return root;
+    }
+
+    while (root->rhs)
+    {
+      root = root->rhs;
+    }
+    return root;
+  }
   Tree< K, V >* lhs, * rhs;
   Tree< K, V >* parent;
   std::pair< K, V > val;
@@ -78,44 +108,37 @@ struct Tree {
 template< class K, class V >
 class TreeIt {
 public:
-  TreeIt< K, V >& operator++()
+  bool hasNext() const
   {
 
   }
 
-  TreeIt< K, V > operator++(int)
+  TreeIt< K, V >* next()
   {
-
+    if (node_->rhs)
+    {
+      node_ = node_->rhs;
+      node_ = node_->minimum();
+    }
+    else
+    {
+      TreeIt< K, V >* parent = node_->parent_;
+      while (parent && parent->right_ == node_)
+      {
+        node_ = parent;
+        parent = parent->parent_;
+      }
+      node_ = parent;
+    }
   }
 
-  TreeIt< K, V >& operator++()
+  std::pair< K, V >& value()
   {
-
-  }
-
-  std::pair< K, V >& operator*()
-  {
-
-  }
-
-  std::pair< K, V >* operator->()
-  {
-
-  }
-
-
-  bool operator==(const TreeIt< K, V >& other) const
-  {
-
-  }
-
-  bool operator!=(const TreeIt< K, V >& other) const
-  {
-
+    
   }
 
 private:
-  Tree< K, V > node_;
+  Tree< K, V >* node_;
 };
 
 template< class T, class U, class W >
@@ -125,40 +148,19 @@ using ds_t = Tree< T, Table< U, W > >;
 template< class T, class U, class W >
 class DsIter {
 public:
-  DsIter< T, U, W >& operator++()
+  bool hasNext() const
   {
 
   }
 
-  DsIter< T, U, W > operator++(int)
+  DsIter< T, U, W>& next()
   {
 
   }
 
-  DsIter< T, U, W >& operator++()
+  std::pair< U, W >& value()
   {
-
-  }
-
-  std::pair< U, W >& operator*()
-  {
-
-  }
-
-  std::pair< U, W >* operator->()
-  {
-
-  }
-
-
-  bool operator==(const DsIter< T, U, W >& other) const
-  {
-
-  }
-
-  bool operator!=(const DsIter< T, U, W >& other) const
-  {
-
+    
   }
 
 private:

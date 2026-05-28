@@ -159,5 +159,14 @@ TriTreeIt< T > prev(TriTreeIt< T > it)
   return {next, ind};
 }
 
+template< class T >
+bool hasNext(TriTreeIt< T > it)
+{
+  return next(it).curr;
+}
 
-
+template< class T >
+bool hasPrev(TriTreeIt< T > it)
+{
+  return prev(it).curr;
+}
